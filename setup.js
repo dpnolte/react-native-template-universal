@@ -48,13 +48,17 @@ package.scripts["generate-unit-tests"] =
 
 console.log(`Adding entry point for electron`);
 package["main"] = "index.electron.js";
-package["browserList"] = [
+/*package["browserList"] = [
   ">0.2%",
   "not dead",
   "not ie <= 11",
   "not op_mini all"
 ];
-delete package["jest"];
+delete package["jest"];*/
 fs.writeFileSync(fileName, JSON.stringify(package));
+
+
+// TODO: app.json to src/
+// TODO: update native code to point to custom entry file: src/index.native.js
 
 console.log("done");
