@@ -4,7 +4,7 @@
   "description": "React Native template for a quick start with TypeScript and cross-platform setup.",
   "scripts": {
     "test": "standard setup.js",
-    "install": "node setup.js"
+    "post-install": "node setup.js"
   },
   "repository": {
     "type": "git",
