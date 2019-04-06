@@ -1,0 +1,21 @@
+{  
+  "@types/jest": "latest",
+  "@types/react": "latest",
+  "@types/react-dom": "latest",
+  "@types/react-native": "latest",
+  "@types/react-router-dom": "latest",
+  "@types/react-router-native": "latest",
+  "@types/react-test-renderer": "latest",
+  "@types/stacktrace-js": "latest",
+  "babel-jest": "^23.6.0",
+  "concurrently": "latest",
+  "electron": "latest",
+  "jest": "^23.6.0",
+  "react-scripts": "latest",
+  "rnpm-plugin-windows": "latest",
+  "source-map": "latest",
+  "stacktrace-js": "latest",
+  "ts-node": "latest",
+  "typescript": "latest",
+  "wait-on": "latest"
+}

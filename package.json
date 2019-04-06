@@ -1,0 +1,30 @@
+{
+  "name": "react-native-template-universal",
+  "version": "0.0.1",
+  "description": "React Native template for a quick start with TypeScript and cross-platform setup.",
+  "scripts": {
+    "test": "standard setup.js",
+    "install": "node setup.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpnolte/react-native-template-universal.git"
+  },
+  "keywords": [
+    "react-native",
+    "typescript",
+    "jest",
+    "template",
+    "boilerplate",
+    "universal"
+  ],
+  "author": "Derk Nolte <dpnolte@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dpnolte/react-native-template-universal/issues"
+  },
+  "homepage": "https://github.com/dpnolte/react-native-template-universal#readme",
+  "devDependencies": {
+    "standard": "12.0.1"
+  }
+}

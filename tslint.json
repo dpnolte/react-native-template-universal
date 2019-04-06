@@ -1,0 +1,24 @@
+{
+  "defaultSeverity": "warning",
+  "extends": [
+      "tslint:recommended",
+      "tslint-config-standard",
+      "tslint-react",
+      "tslint-config-prettier"
+  ],
+  "jsRules": {
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,      
+    "no-console": false
+  },
+  "rules": {
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "no-console": false,
+    "member-access": false,
+    "indent": [true, "spaces", 2]
+  },
+  "rulesDirectory": []
+}

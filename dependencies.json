@@ -1,0 +1,14 @@
+{
+  "react-dom": "latest",
+  "react-native-web": "latest",
+  "react-native-windows": "latest",
+  "react-router": "latest",
+  "react-router-dom": "latest",
+  "react-router-native": "latest",
+  "redux": "latest",
+  "redux-observable": "latest",
+  "redux-persist": "latest",
+  "rxjs": "latest",
+  "typesafe-actions": "^3.4.0",
+  "utility-types": "latest"
+}
