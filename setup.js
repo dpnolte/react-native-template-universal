@@ -1,29 +1,19 @@
 const fs = require("fs");
 const path = require("path");
 
-const projectFilesToDelete = [".flowconfig", "App.js", "__tests__/App-test.js"];
+const projectPath = path.join(__dirname);
 
-const templateFilesToDelete = ["setup.js", "README.md", "LICENSE"];
-
-const deleteFile = filePath => {
-  if (!fs.existsSync(filePath)) {
-    return;
+const ensurePathExists = (pathLike) => {
+  if (!fs.existsSync(pathLike)) {
+    console.error('Path does not exist: ' + pathLike)
   }
+}
 
-  fs.unlinkSync(filePath);
-};
+const fileName = "package.json"
+const packagePath = path.join(projectPath, fileName);
+ensurePathExists(packagePath);
 
-const projectPath = path.join(__dirname, "..", "..");
-const deleteProjectFile = fileName =>
-  deleteFile(path.join(projectPath, fileName));
-const deleteTemplateFile = fileName =>
-  deleteFile(path.join(__dirname, fileName));
 
-projectFilesToDelete.forEach(deleteProjectFile);
-templateFilesToDelete.forEach(deleteTemplateFile);
-
-const fileName = "package.json";
-const packagePath = path.resolve(fileName);
 let json = require(packagePath);
 
 console.log(`Adding scripts to package.json`);
@@ -48,17 +38,81 @@ json.scripts["generate-unit-tests"] =
 
 console.log(`Adding entry point for electron`);
 json["main"] = "index.electron.js";
-package["browserList"] = [
+json["browserList"] = [
   ">0.2%",
   "not dead",
   "not ie <= 11",
   "not op_mini all"
 ];
-delete package["jest"];
+delete json["jest"];
 fs.writeFileSync(fileName, JSON.stringify(json, null, 2));
 
 
-// TODO: app.json to src/
-// TODO: update native code to point to custom entry file: src/index.native.js
+const filesToDelete = [".flowconfig", "App.js", "__tests__/App-test.js", "README.md", "LICENSE"];
+const foldersToDelete = ["__tests__"];
 
+console.log('Deleting unnessary files')
+const deleteFile = filePath => {
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
+
+  fs.unlinkSync(filePath);
+};
+const deleteFolder = folderPath => {
+  if (!fs.existsSync(folderPath)) {
+    return;
+  }
+  fs.rmdirSync(folderPath)
+}
+
+
+filesToDelete.forEach(fileName => deleteFile(path.join(projectPath, fileName)));
+foldersToDelete.forEach(folderName => deleteFolder(path.join(projectPath, folderName)))
+
+
+const appJsonFileName = 'app.json'
+console.log(`moving ./${appJsonFileName} to ./src/${appJsonFileName}`)
+const oldAppJsonPath = path.join(projectPath, appJsonFileName)
+const appJsonPath = path.join(projectPath, "src", appJsonFileName)
+if (fs.existsSync(oldAppJsonPath)) {
+  fs.renameSync(oldAppJsonPath, appJsonPath)
+}
+ensurePathExists(appJsonPath)
+const appName = require(appJsonPath).name
+
+// TODO: update native code to point to custom entry file: src/index.native.js
+console.log('Updating custom entry file for react native')
+
+const updateFileWithRegex = (pathLike, regex, replaceValue) => {
+  ensurePathExists(pathLike)
+  const oldContents = fs.readFileSync(pathLike).toString()
+  if (!regex.exec(oldContents)) {
+    console.warn(`Regex not matching, not updating ${pathLike}`)
+    return
+  }
+  const contents = oldContents.replace(regex, replaceValue)
+  fs.writeFileSync(pathLike, contents)
+}
+
+const androidAppPath = path.join(projectPath, 'android', 'app')
+const appGradlePath = path.join(androidAppPath, 'build.gradle')
+const appGradleRegex = /(.*\s+project.ext.react\s+=\s+\[.*\s+entryFile:\s+")(.+)("\s+.*\]\s+.*)/
+updateFileWithRegex(appGradlePath, appGradleRegex, '$1src/index.native.js$3')
+
+const mainApplicationPath = path.join(androidAppPath, 'src', 'main', 'java', 'com', appName, 'MainApplication.java')
+const mainApplicationRegex = /(.*\s+protected\s+String\s+getJSMainModuleName\(\)\s+{\s+return\s+")(.+)("\s*;\s+.*)/
+updateFileWithRegex(mainApplicationPath, mainApplicationRegex, '$1src/index.native$3')
+
+const iosPath = path.join(projectPath, "ios")
+const appDelegatePath = path.join(iosPath, appName, "AppDelegate.m")
+const appDelegateRegex = /(.*\s+jsBundleURLForBundleRoot:@")(.+)("\s+.*)/
+updateFileWithRegex(appDelegatePath, appDelegateRegex, '$1src/index.native$3')
+
+const xcodeProjectPath = path.join(iosPath, `${appName}.xcodeproj`, 'project.pbxproj')
+const xcodeProjectRegex = /(.*shellScript\s*=\s*"export\s+NODE_BINARY=node\\n..\/node_modules\/react-native\/scripts\/react-native-xcode.sh)(\\n";.*)/
+updateFileWithRegex(xcodeProjectPath, xcodeProjectRegex, '$1 src/index.native.js$2')
+
+console.log('deleting setup.js')
+fs.unlinkSync(__filename)
 console.log("done");
