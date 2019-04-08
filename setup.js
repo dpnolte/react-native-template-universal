@@ -25,7 +25,7 @@ json.scripts["electron"] =
   "yarn concurrently 'yarn browserless-start' 'yarn wait-on http://localhost:3000/; yarn electron-run'";
 json.scripts["electron-run"] =
   "ELECTRON_URL=http://localhost:3000 electron src/index.electron.js";
-json.scripts["elecctron-prod-run"] = "electron src/index.electron.js";
+json.scripts["electron-prod-run"] = "electron src/index.electron.js";
 json.scripts["browserless-start"] = "BROWSER=none react-scripts start";
 json.scripts["lint"] = "tslint './src/**/*.{ts,tsx}'";
 json.scripts["lint:fix"] = "tslint --fix './src/**/*.{ts,tsx}'";
