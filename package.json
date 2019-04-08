@@ -1,7 +1,10 @@
 {
   "name": "react-native-template-universal",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "React Native template for a quick start with TypeScript and cross-platform setup.",
+  "scripts": {
+    "post-install": "node setup.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dpnolte/react-native-template-universal.git"
