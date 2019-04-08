@@ -1,7 +1,17 @@
 const fs = require("fs");
 const path = require("path");
+const child_process = require('child_process')
 
 const projectPath = path.join(__dirname);
+let hasYarn
+try {
+    child_process.execSync('yarn --version', {
+        stdio: [0, 'pipe', 'ignore'],
+    })
+    hasYarn = true
+} catch (error) {
+    hasYarn = false;
+}
 
 const ensurePathExists = (pathLike) => {
   if (!fs.existsSync(pathLike)) {
@@ -38,15 +48,36 @@ json.scripts["generate-unit-tests"] =
 
 console.log(`Adding entry point for electron`);
 json["main"] = "index.electron.js";
-json["browserList"] = [
+json["browserslist"] = [
   ">0.2%",
   "not dead",
   "not ie <= 11",
   "not op_mini all"
 ];
+// jest version nr gets overwritten
+let requiresInstall = false
+if (json["devDependencies"]["babel-jest"] !== '^23.6.0') {
+  json["devDependencies"]["babel-jest"] = '^23.6.0'
+  requiresInstall = true
+}
+if (json["devDependencies"]["jest"] !== '^23.6.0') {
+  json["devDependencies"]["jest"] = '^23.6.0'
+  requiresInstall = true
+}
 delete json["jest"];
 fs.writeFileSync(fileName, JSON.stringify(json, null, 2));
 
+if (requiresInstall) {
+  console.log('Requires new install (probably due to Jest downgrade)')
+  if (hasYarn) {
+    console.log('using yarn')
+    child_process.execSync('yarn', {stdio: 'inherit'})
+  } else {
+    console.log('using npm')
+    child_process.execSync('npm prune', {stdio: 'inherit'})
+    child_process.execSync('npm install', {stdio: 'inherit'})
+  }
+}
 
 const filesToDelete = [".flowconfig", "App.js", "__tests__/App-test.js", "README.md", "LICENSE"];
 const foldersToDelete = ["__tests__"];

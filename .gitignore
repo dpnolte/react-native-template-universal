@@ -30,10 +30,6 @@ build/
 local.properties
 *.iml
 
-# Visual Studio Code
-#
-.vscode/
-
 # node.js
 #
 node_modules/
@@ -58,3 +54,21 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+
+# vs code
+.vscode/.react/debuggerWorker.js
+.vscode/.react/index.bundle
+.vscode/.react/index.map
+.vscode/.react/.vscode/launchReactNative.js
+.vscode/tags
+
+## Android
+*.apk
+# android/app/src/release/
+# android/app/src/main/res/values/
+android/app/src/main/assets/crashlytics-build.properties
+
+#jest
+.jest/
+test/transpiled/
+coverage/
