@@ -110,7 +110,7 @@ const appDelegateRegex = /(.*\s+jsBundleURLForBundleRoot:@")(.+)("\s+.*)/
 updateFileWithRegex(appDelegatePath, appDelegateRegex, '$1src/index.native$3')
 
 const xcodeProjectPath = path.join(iosPath, `${appName}.xcodeproj`, 'project.pbxproj')
-const xcodeProjectRegex = /(.*shellScript\s*=\s*"export\s+NODE_BINARY=node\\n..\/node_modules\/react-native\/scripts\/react-native-xcode.sh)(\\n";.*)/
+const xcodeProjectRegex = /(.*\s+shellScript\s*=\s*"export\s+NODE_BINARY=node\\n\.\.\/node_modules\/react-native\/scripts\/react-native-xcode.sh)(";.*)/g
 updateFileWithRegex(xcodeProjectPath, xcodeProjectRegex, '$1 src/index.native.js$2')
 
 console.log('deleting setup.js')
