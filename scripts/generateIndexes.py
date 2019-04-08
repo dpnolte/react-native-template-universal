@@ -29,7 +29,7 @@ def create_index_ts_at_dir(dir, level):
     any_exports = False
     typescript_contents += '// Run either: \n' 
     typescript_contents += '// - ' + prefix + 'scripts/generateIndexes.py 💚 💚 💚 \n'
-    typescript_contents += '// - \'npm run generate-indexes\' '
+    typescript_contents += '// - \'yarn generate-indexes\' '
     typescript_contents += 'from project root 💚 💚 💚\n\n'
     for f in files:
         filename, file_extension = os.path.splitext(f)

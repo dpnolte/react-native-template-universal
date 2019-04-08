@@ -58,7 +58,7 @@ import React from 'react';
 // This file is auto generated. Do not edit! 🎻
 // Run either:
 // - ../../scripts/generateAssets.py 💚 💚 💚 
-// - 'npm run generate-assets' from project root 💚 💚 💚
+// - 'yarn generate-assets' from project root 💚 💚 💚
 
 export const images = {
   $images
